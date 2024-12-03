@@ -5,7 +5,10 @@ import task
 
 class TestTask(unittest.TestCase):
     def test(self):
-        t = task.Task()
+    	size = np.random.randint(300, 3_000)
+	a = np.random.rand(size, size)
+        b = np.random.rand(size)
+        t = task.Task(a,b)
         t.work()
         numpy.testing.assert_allclose(numpy.dot(t.a, t.x), t.b)
 
