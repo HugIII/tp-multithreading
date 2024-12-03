@@ -7,8 +7,8 @@ class QueueManager(BaseManager):
 		super().__init__(address=("127.0.0.1",50000),authkey=b'abc')
 		self.task_queue = Queue()
 		self.result_queue = Queue()
-		super().register("task",callable=lambda:task_queue)
-		super().register("result",callable=lambda:result_queue)
+		super().register("task",callable=lambda:self.task_queue)
+		super().register("result",callable=lambda:self.result_queue)
 	
 		
 class QueueClient:
@@ -16,13 +16,11 @@ class QueueClient:
 		self.m = QueueManager()
 		self.m.connect()
 
-	@abstractmethod
-	def get():
-		pass
-	
-	@abstractmethod
-	def post():
-		pass
+		self.m.register("task")
+		self.task_queue = self.m.task()
+
+		self.m.register("result")
+		self.result_queue = self.m.result()
 		
 if __name__=="__main__":
 	m = QueueManager()

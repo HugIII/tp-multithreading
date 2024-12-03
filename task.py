@@ -9,10 +9,10 @@ class Task:
         # choosee the size of the problem
         #self.size = size or np.random.randint(300, 3_000)
         # Generate the input of the problem
-        #self.a = np.random.rand(self.size, self.size)
-        #self.b = np.random.rand(self.size)
+        self.a = a
+        self.b = b
         # prepare room for the results
-        self.x = np.zeros((self.size))
+        self.x = np.zeros((size))
         self.time = 0
 
     def work(self):
