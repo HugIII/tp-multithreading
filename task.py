@@ -7,7 +7,7 @@ class Task:
     def __init__(self, a, b, identifier=0, size=None):
         self.identifier = identifier
         # choosee the size of the problem
-        #self.size = size or np.random.randint(300, 3_000)
+        # self.size = size or np.random.randint(300, 3_000)
         # Generate the input of the problem
         self.a = a
         self.b = b
