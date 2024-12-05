@@ -1,13 +1,13 @@
 import unittest
 import task
+import numpy as np
 
 
 class TestTask(unittest.TestCase):
     def test(self):
-        a = task.Task()
-        txt = a.to_json()
-        b = task.Task.from_json(txt)
-        assert a == b
+        t = task.Task()
+        t.work()
+        np.testing.assert_allclose(np.dot(t.a, t.x), t.b)
 
 
 if __name__ == "__main__":

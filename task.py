@@ -4,8 +4,8 @@ import numpy as np
 
 
 class Task:
-    def __init__(self, identifier=None, size=None, time=None):
-        self.identifier = identifier or 0
+    def __init__(self, identifier=0, size=None, time=None):
+        self.identifier = identifier
         # choosee the size of the problem
         self.size = size or np.random.randint(10, 3_0)
         # Generate the input of the problem
