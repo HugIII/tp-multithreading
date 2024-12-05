@@ -1,5 +1,4 @@
 import QueueManager
-import numpy as np
 from task import Task
 
 
@@ -8,10 +7,10 @@ class Boss(QueueManager.QueueClient):
         super().__init__()
 
     def post(self):
-        size = np.random.randint(300, 3_000)
-        a = np.random.rand(size, size)
-        b = np.random.rand(size)
-        t = Task(a, b, size)
+        # size = np.random.randint(300, 3_000)
+        # a = np.random.rand(size, size)
+        # b = np.random.rand(size)
+        t = Task()
         self.task_queue.put(t)
 
     def get(self):
@@ -20,8 +19,10 @@ class Boss(QueueManager.QueueClient):
 
 if __name__ == "__main__":
     boss = Boss()
-    for i in range(10):
+    for i in range(100):
         boss.post()
+
+    print("J'ai fini de post les tâches.")
 
     while 1:
         boss.get()
