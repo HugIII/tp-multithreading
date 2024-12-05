@@ -1,7 +1,7 @@
-import QueueManager
+import manager
 
 
-class Minion(QueueManager.QueueClient):
+class Minion(manager.QueueClient):
     def __init__(self):
         super().__init__()
 

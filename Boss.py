@@ -1,8 +1,8 @@
-import QueueManager
+import manager
 from task import Task
 
 
-class Boss(QueueManager.QueueClient):
+class Boss(manager.QueueClient):
     def __init__(self):
         super().__init__()
 
@@ -14,7 +14,7 @@ class Boss(QueueManager.QueueClient):
         self.task_queue.put(t)
 
     def get(self):
-        print("J'ai reçu un résultat " + str(self.result_queue.get()))
+        print("J'ai reçu un résultat " + str(self.result_queue.get().x))
 
 
 if __name__ == "__main__":
