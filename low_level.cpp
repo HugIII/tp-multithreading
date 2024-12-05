@@ -1,3 +1,4 @@
+#include <chrono>
 #include <iostream>
 #include <stdio.h>
 #include <string>
@@ -74,7 +75,12 @@ string Task::encodeJson() {
   return j.dump();
 }
 
-void Task::work() { x = a.colPivHouseholderQr().solve(b); }
+void Task::work() {
+  auto start = chrono::high_resolution_clock::now();
+  x = a.colPivHouseholderQr().solve(b);
+  auto end = chrono::high_resolution_clock::now();
+  time = std::chrono::duration<float>(end - start).count();
+}
 
 class Minion {
 public:
