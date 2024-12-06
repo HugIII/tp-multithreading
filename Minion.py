@@ -8,7 +8,7 @@ class Minion(manager.QueueClient):
     def get(self):
         t = self.task_queue.get()
         t.work()
-        print("J'ai fini une tache")
+        print("J'ai fini la tache ", t.identifier)
         self.result_queue.put(t)
 
 

@@ -1,0 +1,20 @@
+C++:
+	Debug:
+		Nb taches : 10
+		Size : 3000
+		→ temps tot : 116s
+
+	Release:
+		Nb taches : 10
+		Size : 3000
+		Méthode de décomposition : ColPivHouseholderQR()
+		→ temps tot : 105s
+
+
+		Meme parametre mais avec MatrixXf et VectorXf
+		Méthode de décomposition : partialPivLu()
+
+Python:
+	Nb taches : 10
+	Size : 3000
+	→ temps tot : 56s

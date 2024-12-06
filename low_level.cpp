@@ -7,29 +7,29 @@
 #include <cpr/cpr.h>
 #include <nlohmann/json.hpp>
 
-using Eigen::MatrixXd;
+using Eigen::MatrixXf;
 using namespace std;
 using json = nlohmann::json;
 
 class Task {
 public:
-  Task(int size, MatrixXd a, MatrixXd b, int identifier);
+  Task(int size, MatrixXf a, MatrixXf b, int identifier);
   void work();
   string encodeJson();
 
 private:
   int size;
-  MatrixXd a;
-  Eigen::VectorXd b;
-  Eigen::VectorXd x;
+  MatrixXf a;
+  Eigen::VectorXf b;
+  Eigen::VectorXf x;
   int identifier;
   float time;
 };
 
-Task::Task(int size, MatrixXd a, MatrixXd b, int identifier)
+Task::Task(int size, MatrixXf a, MatrixXf b, int identifier)
     : a(a), b(b), identifier(identifier), size(size) {
   float time = 0;
-  x = Eigen::VectorXd(size);
+  x = Eigen::VectorXf(size);
 }
 
 Task decodeJson(string s) {
@@ -38,12 +38,12 @@ Task decodeJson(string s) {
 
   int size_temp = int(j["size"]);
 
-  MatrixXd a_temp = MatrixXd(size_temp, size_temp);
-  Eigen::VectorXd b_temp = Eigen::VectorXd(size_temp);
+  MatrixXf a_temp = MatrixXf(size_temp, size_temp);
+  Eigen::VectorXf b_temp = Eigen::VectorXf(size_temp);
 
   for (int i = 0; i < size_temp; i++) {
     for (int j_idx = 0; j_idx < size_temp; j_idx++) {
-      a_temp(i, j_idx) = j["a"][int(i)][int(j_idx)];
+      a_temp(i, j_idx) = j["a"][i][j_idx];
     }
   }
 
@@ -76,9 +76,9 @@ string Task::encodeJson() {
 }
 
 void Task::work() {
-  auto start = chrono::high_resolution_clock::now();
-  x = a.colPivHouseholderQr().solve(b);
-  auto end = chrono::high_resolution_clock::now();
+  auto start = chrono::steady_clock::now();
+  x = a.householderQr().solve(b);
+  auto end = chrono::steady_clock::now();
   time = std::chrono::duration<float>(end - start).count();
 }
 

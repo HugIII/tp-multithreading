@@ -8,24 +8,22 @@ class Boss(manager.QueueClient):
         self.te = 0
 
     def post(self):
-        # size = np.random.randint(300, 3_000)
-        # a = np.random.rand(size, size)
-        # b = np.random.rand(size)
-        t = Task(size=600)
-        self.task_queue.put(t)
+        for i in range(10):
+            t = Task(identifier=i,size=3000)
+            self.task_queue.put(t)
+            print("ajout de la tache " + str(i) + " dans la liste.")
 
     def get(self):
         re = self.result_queue.get()
-        print("J'ai reçu un résultat " + str(re.x))
+        print("La tache " + str(re.identifier) + " donne le résultat : " + str(re.x))
         print("J'ai mis " + str(re.time))
         self.te += re.time
-        print("Temps total" + str(self.te))
+        print("Temps total : " + str(self.te))
 
 
 if __name__ == "__main__":
     boss = Boss()
-    for i in range(10):
-        boss.post()
+    boss.post()
 
     print("J'ai fini de post les tâches.")
 
