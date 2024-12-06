@@ -1,7 +1,7 @@
 /*
  * File name: low_level.cpp
  * Author:    Clara Baffogne, Hugo Blayes
- * Date:      06/12
+ * Date:      06/12/24
  * Description: This file is the C++ version of Minion.py, it retrieves the
  * tasks to do from the QueueManager thanks to the Proxy. It will then solve the
  * task, storing the result and the time it took the task to execute. Once the
