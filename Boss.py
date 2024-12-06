@@ -9,7 +9,7 @@ class Boss(manager.QueueClient):
 
     def post(self):
         for i in range(10):
-            t = Task(identifier=i,size=3000)
+            t = Task(identifier=i, size=3000)
             self.task_queue.put(t)
             print("ajout de la tache " + str(i) + " dans la liste.")
 
