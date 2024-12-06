@@ -111,6 +111,7 @@ void Minion::put(string s) {
 }
 
 int main(int argc, char **argv) {
+  Eigen::setNbThreads(4);
   Minion *m = new Minion();
   while (1) {
     m->get();
