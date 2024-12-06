@@ -80,6 +80,7 @@ void Task::work() {
   x = a.householderQr().solve(b);
   auto end = chrono::steady_clock::now();
   time = std::chrono::duration<float>(end - start).count();
+  cout << "La tâche " << identifier << " a été effectué " << endl;
 }
 
 class Minion {
@@ -111,7 +112,7 @@ void Minion::put(string s) {
 }
 
 int main(int argc, char **argv) {
-  Eigen::setNbThreads(4);
+  Eigen::setNbThreads(14);
   Minion *m = new Minion();
   while (1) {
     m->get();

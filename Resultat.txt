@@ -13,6 +13,11 @@ C++:
 
 		Meme parametre mais avec MatrixXf et VectorXf
 		Méthode de décomposition : partialPivLu()
+		→temps tot : 25s
+
+		Méthode de décomposition : householderQr()
+		→temps tot : 13s
+		Avec Thread : temps tot → 12s
 
 Python:
 	Nb taches : 10
