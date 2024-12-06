@@ -30,7 +30,6 @@ class TestTask(unittest.TestCase):
         t = task.Task()
         # work solves the equation Ax = B in which x is unconditional (A is a matrix and B a vector)
         t.work()
-
         # If work has worked, then A*x must be equal to B, which is what we're looking for in work
         np.testing.assert_allclose(np.dot(t.a, t.x), t.b)
 
