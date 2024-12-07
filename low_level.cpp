@@ -97,8 +97,8 @@ string Task::encodeJson() {
   j["identifier"] = identifier;
   j["time"] = time;
 
-  // Since b and x are vectors of size 'size', we can easily assign each field of
-  // our json with a for
+  // Since b and x are vectors of size 'size', we can easily assign each field
+  // of our json with a for
   for (int i = 0; i < size; i++) {
     j["b"][i] = b[i];
     j["x"][i] = x[i];

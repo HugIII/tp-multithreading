@@ -1,23 +1,23 @@
 """
 ====================================================================
-File: Minion.py 
+File: Minion.py
 Author: Baffogne Clara, Blayes Hugo
 Date: 06/12/24
 Description:
-    This script defines the `Minion` class, which represents a worker 
-    that fetches tasks from a shared task queue, processes them, and 
+    This script defines the `Minion` class, which represents a worker
+    that fetches tasks from a shared task queue, processes them, and
     places the results into a shared result queue.
     These queues are managed by the QueueManager class.
 
 Usage:
-    python Minion.py 
+    python Minion.py
 
 Version: 1.0.0
 ====================================================================
 """
 
-
 import manager
+
 
 # This class inherits from QueueClient, which communicates with the QueueManager
 class Minion(manager.QueueClient):

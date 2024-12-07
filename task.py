@@ -4,9 +4,9 @@ File: task.py
 Author: Baffogne Clara, Blayes Hugo
 Date: 06/12/24
 Description:
-    This file defines the `Task` class, which represents a computational problem 
-    involving solving a linear system of equations. The class includes methods 
-    for generating problem inputs, performing computations, and serializing 
+    This file defines the `Task` class, which represents a computational problem
+    involving solving a linear system of equations. The class includes methods
+    for generating problem inputs, performing computations, and serializing
     or deserializing tasks in JSON format.
 
 Usage:

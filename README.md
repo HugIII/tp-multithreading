@@ -36,22 +36,22 @@ cmake --build build
 
 ## Lancement
 ### Cas executant en Python
-Pour exécuter le cas en Python, suivez les étapes ci-dessous :  
+Pour exécuter le cas en Python, suivez les étapes ci-dessous :
 
-1. Premier terminal  
-   Lancez le script `manager.py` dans un terminal. Ce script gère la coordination globale des tâches.  
+1. Premier terminal
+   Lancez le script `manager.py` dans un terminal. Ce script gère la coordination globale des tâches.
    ```bash
    python manager.py
    ```
 
-2. Deuxième terminal 
-   Lancez le script `Boss.py`, qui supervise les tâches assignées aux Minions.  
+2. Deuxième terminal
+   Lancez le script `Boss.py`, qui supervise les tâches assignées aux Minions.
    ```bash
    python Boss.py
    ```
 
-3. Troisième terminal et suivants  
-   Lancez autant d'instances du script `Minion.py` que souhaité pour effectuer les tâches en parallèle. Chaque Minion exécute une partie des calculs.  
+3. Troisième terminal et suivants
+   Lancez autant d'instances du script `Minion.py` que souhaité pour effectuer les tâches en parallèle. Chaque Minion exécute une partie des calculs.
    ```bash
    python Minion.py
    ```
@@ -59,20 +59,20 @@ Pour exécuter le cas en Python, suivez les étapes ci-dessous :
 ### Cas executant en C++
 Pour exécuter le cas en C++, suivez les étapes ci-dessous :
 
-1. Premier terminal  
-   Lancez le script `manager.py` dans un terminal. Ce script gère la coordination globale des tâches.  
+1. Premier terminal
+   Lancez le script `manager.py` dans un terminal. Ce script gère la coordination globale des tâches.
    ```bash
    python manager.py
    ```
-   
+
 2. Deuxième terminal
    Lancez le script `proxy.py`, qui lance le server pour pouvoir acceder aux queue du QueueManager.
    ```bash
    python proxy.py
    ```
 
-3. Troisième terminal 
-   Lancez le script `Boss.py`, qui supervise les tâches assignées aux Minions.  
+3. Troisième terminal
+   Lancez le script `Boss.py`, qui supervise les tâches assignées aux Minions.
    ```bash
    python Boss.py
    ```
@@ -83,29 +83,29 @@ Pour exécuter le cas en C++, suivez les étapes ci-dessous :
 
 
 ## Resultats
-Pour comparer les performances des différents implémentations (Python et C++), nous avons fixé plusieurs paramètres dans notre code.  
+Pour comparer les performances des différents implémentations (Python et C++), nous avons fixé plusieurs paramètres dans notre code.
 
-### Paramètres communs  
-- Taille des matrices : 3000 x 3000.  
-- Nombre de tâches : 10 par batch de test.  
+### Paramètres communs
+- Taille des matrices : 3000 x 3000.
+- Nombre de tâches : 10 par batch de test.
 
-### Résultats obtenus 
-- Python : Le temps total d'exécution est de 56 secondes.  
-- C++:  
-  - En mode Debug, le temps total est de 116 secondes.  
-  - En mode Release, ce temps diminue à 105 secondes.  
+### Résultats obtenus
+- Python : Le temps total d'exécution est de 56 secondes.
+- C++:
+  - En mode Debug, le temps total est de 116 secondes.
+  - En mode Release, ce temps diminue à 105 secondes.
 
-### Optimisation des structures de données  
-Au départ, les résultats étaient stockés dans des matrices `MatrixXd`, privilégiant une haute précision des calculs. Cependant, dans notre cas, une telle précision n’était pas nécessaire, et les priorités étaient la vitesse et la mémoire. Nous avons donc opté pour `MatrixXf`, une structure de données moins gourmande.  
+### Optimisation des structures de données
+Au départ, les résultats étaient stockés dans des matrices `MatrixXd`, privilégiant une haute précision des calculs. Cependant, dans notre cas, une telle précision n’était pas nécessaire, et les priorités étaient la vitesse et la mémoire. Nous avons donc opté pour `MatrixXf`, une structure de données moins gourmande.
 
-Impact du changement :  
-- Une tâche initialement réalisée en 5 secondes a vu son temps réduit à 2 secondes, ce qui a permis d'améliorer considérablement les performances.  
+Impact du changement :
+- Une tâche initialement réalisée en 5 secondes a vu son temps réduit à 2 secondes, ce qui a permis d'améliorer considérablement les performances.
 
-### Optimisation des fonctions de résolution (solve)  
-En mode Release, nous avons également testé différentes fonctions de résolution bas niveau :  
-- `ColPivHouseholderQR` : 105 secondes.  
-- `PartialPivLU` : 25 secondes.  
-- `HouseholderQR` : 12 secondes.  
+### Optimisation des fonctions de résolution (solve)
+En mode Release, nous avons également testé différentes fonctions de résolution bas niveau :
+- `ColPivHouseholderQR` : 105 secondes.
+- `PartialPivLU` : 25 secondes.
+- `HouseholderQR` : 12 secondes.
 
 Les choix des structures de données et des fonctions de résolution jouent un rôle essentiel dans les performances. L’adoption de `MatrixXf` et l’utilisation de `HouseholderQR` en mode Release offrent les meilleures performances, mettant en évidence l'importance de combiner la précision requise avec des solutions adaptées aux contraintes de temps et de mémoire.
 
