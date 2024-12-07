@@ -1,3 +1,21 @@
+"""
+====================================================================
+File: task.py
+Author: Baffogne Clara, Blayes Hugo
+Date: 06/12/24
+Description:
+    This file defines the `Task` class, which represents a computational problem 
+    involving solving a linear system of equations. The class includes methods 
+    for generating problem inputs, performing computations, and serializing 
+    or deserializing tasks in JSON format.
+
+Usage:
+    python task.py
+
+Version: 1.0.0
+====================================================================
+"""
+
 import time
 import json
 import numpy as np
@@ -16,12 +34,14 @@ class Task:
         self.time = time or 0
 
     def work(self):
+        # Solve the linear system Ax = b and measure the execution time.
         start = time.perf_counter()
         self.x = np.linalg.solve(self.a, self.b)
         self.time = time.perf_counter() - start
         return self.x
 
     def to_json(self) -> str:
+        # Convert the task instance to a JSON string.
         return json.JSONEncoder().encode(
             {
                 "a": self.a.tolist(),
@@ -35,6 +55,7 @@ class Task:
 
     @staticmethod
     def from_json(text: str) -> "Task":
+        # Recreate a Task instance from a JSON string (input text).
         d = json.loads(text)
         t = Task(int(d["identifier"]), int(d["size"]), float(d["time"]))
         t.a = np.array(d["a"], np.float64)
@@ -43,6 +64,7 @@ class Task:
         return t
 
     def __eq__(self, other: "Task") -> bool:
+        # Define equality between Task instances (inputs self and other) based on all attributes.
         return (
             (self.a == other.a).all()
             and (self.b == other.b).all()
