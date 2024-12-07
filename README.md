@@ -1,12 +1,8 @@
 ## Projet
 
-Ce projet a été réalisé dans le cadre du TP de multi-threading en 3ème année en SRI à l'école d'ingénieur UPSSITECH.
-Le but de ce TP est de montrer différent aspect du multi-threading.
-Pour cela, nous allons réaliser un système Master-Slave.
-Les Masters (Boss.py) vont créer des tâches et les Slaves (Minions.py et low_level.cpp) vont résoudre les tâches et transmettre le résultat.
-Les deux composants auront deux Queues partagés une avec les tâches à réaliser et une autre avec les tâches réalisés.
-Ces mémoires partagées vont être par géré par le QueueManager (manager.py).
-Tandis que le proxy.py va permettre de faire tampon entre le QueueManager et le minion C++ (low_level.cpp).
+Ce projet a été réalisé dans le cadre d’un TP sur le multiprocessing en 3ᵉ année du cursus SRI à l’école d’ingénieurs UPSSITECH.
+L’objectif est d’explorer différents aspects du multiprocessing en développant un système de type Master-Slave. Dans ce système, les Masters (implémentés dans le script `Boss.py`) génèrent des tâches à réaliser, tandis que les Slaves (scripts `Minions.py` et programme `low_level.cpp`) exécutent ces tâches et renvoient les résultats.
+La communication entre les composants repose sur deux queues partagées : l’une pour stocker les tâches en attente et l’autre pour conserver les résultats obtenus. Ces mémoires partagées sont administrées par un gestionnaire, le `QueueManager` (script `manager.py`). Enfin, le script `proxy.py` permet de faire tampon entre le QueueManager et le Minion en C++ (`low_level.cpp`).
 
 ## Dépendences
 ### Librairies Python nécessaires
@@ -40,30 +36,80 @@ cmake --build build
 
 ## Lancement
 ### Cas executant en Python
-Lancer un premier terminal pour executer manager.py
-Un deuxieme terminal executant Boss.py
-Autant de Minion.py souhaités pour effectuer les tâches en parrallèle.
+Pour exécuter le cas en Python, suivez les étapes ci-dessous :  
+
+1. Premier terminal  
+   Lancez le script `manager.py` dans un terminal. Ce script gère la coordination globale des tâches.  
+   ```bash
+   python manager.py
+   ```
+
+2. Deuxième terminal 
+   Lancez le script `Boss.py`, qui supervise les tâches assignées aux Minions.  
+   ```bash
+   python Boss.py
+   ```
+
+3. Troisième terminal et suivants  
+   Lancez autant d'instances du script `Minion.py` que souhaité pour effectuer les tâches en parallèle. Chaque Minion exécute une partie des calculs.  
+   ```bash
+   python Minion.py
+   ```
 
 ### Cas executant en C++
-Lancer un premier terminal pour executer manager.py
-Un deuxieme terminal executant Boss.py
-Autant de Minion.py souhaités pour effectuer les tâches en parrallèle.
+Pour exécuter le cas en C++, suivez les étapes ci-dessous :
 
-### Resultats
-Pour pouvoir comparer les résultats des différents mignons (python et C++) nous fixer les différentes options de notre code.
-Pour la taille des matrices nous avons décidé de mettre 3000 et nous avons décidé de créer 10 tâches par batch de test.
+1. Premier terminal  
+   Lancez le script `manager.py` dans un terminal. Ce script gère la coordination globale des tâches.  
+   ```bash
+   python manager.py
+   ```
+   
+2. Deuxième terminal
+   Lancez le script `proxy.py`, qui lance le server pour pouvoir acceder aux queue du QueueManager.
+   ```bash
+   python proxy.py
+   ```
 
-Pour le Python nous avons un temps total de 56 secondes.
+3. Troisième terminal 
+   Lancez le script `Boss.py`, qui supervise les tâches assignées aux Minions.  
+   ```bash
+   python Boss.py
+   ```
 
-Pour le C++, si notre code est compilé en mode debug nous avons un temps total de 116 secondes.
+4. Quatrième terminal
+   Lancez le script `low_level.cpp` dans un terminal. Ce script permet d'effectuer les tâches en parralèlle.
+   cf partie [Compilation](#compilation)
 
-Si le code est compilé en mode release nous tombons à 105 secondes.
-Nous avons aussi décidé de tester avec différentes fonctions de solve dans low level en mode release.
-Donc avec ColPivHouseholderQR on obtient 105 secondes.
-Avec la fonction partialPivLu on obtient 25 secondes.
-Et pour finir avec la fonction householderQr on obtient 12 secondes.
+
+## Resultats
+Pour comparer les performances des différents implémentations (Python et C++), nous avons fixé plusieurs paramètres dans notre code.  
+
+### Paramètres communs  
+- Taille des matrices : 3000 x 3000.  
+- Nombre de tâches : 10 par batch de test.  
+
+### Résultats obtenus 
+- Python : Le temps total d'exécution est de 56 secondes.  
+- C++:  
+  - En mode Debug, le temps total est de 116 secondes.  
+  - En mode Release, ce temps diminue à 105 secondes.  
+
+### Optimisation des structures de données  
+Au départ, les résultats étaient stockés dans des matrices `MatrixXd`, privilégiant une haute précision des calculs. Cependant, dans notre cas, une telle précision n’était pas nécessaire, et les priorités étaient la vitesse et la mémoire. Nous avons donc opté pour `MatrixXf`, une structure de données moins gourmande.  
+
+Impact du changement :  
+- Une tâche initialement réalisée en 5 secondes a vu son temps réduit à 2 secondes, ce qui a permis d'améliorer considérablement les performances.  
+
+### Optimisation des fonctions de résolution (solve)  
+En mode Release, nous avons également testé différentes fonctions de résolution bas niveau :  
+- `ColPivHouseholderQR` : 105 secondes.  
+- `PartialPivLU` : 25 secondes.  
+- `HouseholderQR` : 12 secondes.  
+
+Les choix des structures de données et des fonctions de résolution jouent un rôle essentiel dans les performances. L’adoption de `MatrixXf` et l’utilisation de `HouseholderQR` en mode Release offrent les meilleures performances, mettant en évidence l'importance de combiner la précision requise avec des solutions adaptées aux contraintes de temps et de mémoire.
 
 
 ### Analyse des résultats
 
-En analysant, les résultats on peut voir que le C++ est plus rapide mais que lorsqu'il est bien optimisé et que les bonnes fonctions sont utilisés. On peut se demander comment le python peut être si rapide alors que le calcul demande beaucoup d'opération, pour solve le problème on utilise la librarie python numpy. Cette librarie est codé en C et en Fortran et est wrappé par le python ce qui explique comment cette librarie rivalise avec Eigen en C++.
+En examinant les résultats, on constate que le C++ est plus rapide, à condition d’être bien optimisé et de faire appel aux fonctions appropriées. On peut alors se demander comment Python parvient à offrir une telle rapidité malgré la complexité des calculs nécessaires. La réponse réside dans l'utilisation de la bibliothèque NumPy. Cette dernière, écrite en C et Fortran, est enveloppée par Python, ce qui lui permet de rivaliser en performances avec Eigen en C++.
